@@ -1,0 +1,11 @@
+<form method="get" class="filter-bar">
+  <label for="soc-select" class="filter-label">Occupation</label>
+  <select id="soc-select" name="soc" class="filter-select" onchange="this.form.submit()">
+    <option value="" {% if not soc_filter.selected %}selected{% endif %}>All occupations</option>
+    {% for opt in soc_filter.options %}
+    <option value="{{ opt.value }}" {% if soc_filter.selected == opt.value %}selected{% endif %}>{{ opt.label }}</option>
+    {% endfor %}
+  </select>
+  {% if dimension %}<input type="hidden" name="dimension" value="{{ dimension }}">{% endif %}
+  <noscript><button type="submit" class="btn-secondary">Apply</button></noscript>
+</form>

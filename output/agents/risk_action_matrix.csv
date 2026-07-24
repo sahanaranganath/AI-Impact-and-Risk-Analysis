@@ -1,0 +1,4 @@
+soc_code,ed_direction,id_direction,ai_level,ed_id_relationship,ai_ed_relationship,ai_id_relationship,recommended_action,rationale
+15-1252,UP,UP,MODERATE,Aligned (both growing),"Growing market, moderate AI exposure",Internal demand growing alongside moderate AI exposure,Invest,"Market and internal book both growing, low AI disruption risk"
+17-2071,DOWN,UP,MODERATE,Diverging,"Weak market, moderate AI exposure",Internal demand growing alongside moderate AI exposure,Maintain / Protect Renewals,"Market softening but our book still growing — watch closely, don't over-invest"
+19-4031,DOWN,UP,HIGH,Diverging,"Weak market, high AI exposure",Internal demand growing despite high AI exposure,Reposition (urgent),"Book growing now, but sitting on a declining, AI-exposed market — likely to reverse; act before it does"

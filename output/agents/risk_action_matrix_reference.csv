@@ -1,0 +1,9 @@
+ed,id,ai,recommended_action,rationale
+UP,UP,LOW,Invest,"Market and internal book both growing, low AI disruption risk"
+UP,UP,HIGH,Focus More / Reposition into AI-augmented archetype,"Growth is real, but role is being reshaped by AI — capture growth while adapting the role"
+UP,DOWN,LOW,Execution Gap,"Market's growing but we're not capturing share — a sales/sourcing problem, not a market or AI problem"
+UP,DOWN,HIGH,Reposition,"Market growing, but our book shrinking and AI-exposed — investigate whether AI is displacing our roles faster than the market overall"
+DOWN,UP,LOW,Maintain / Protect Renewals,"Market softening but our book still growing — watch closely, don't over-invest"
+DOWN,UP,HIGH,Reposition (urgent),"Book growing now, but sitting on a declining, AI-exposed market — likely to reverse; act before it does"
+DOWN,DOWN,LOW,Watch-list,"Broad decline, but not AI-driven — likely a general market/execution issue"
+DOWN,DOWN,HIGH,Harvest / Step Back,"Everything points the same direction — the clearest, highest-confidence risk pattern"

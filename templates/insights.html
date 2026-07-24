@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block title %}Insights & Recommendations — AI Risk Framework{% endblock %}
+{% block content %}
+<div class="page-heading">
+  <h1>Insights &amp; Recommendations</h1>
+  {% if pipeline_ready %}{% include "partials/soc_filter.html" %}{% endif %}
+</div>
+
+{% if not pipeline_ready %}
+  {% include "partials/empty_state.html" %}
+{% else %}
+{% for v in views %}
+<details class="panel soc-card" open>
+  <summary>
+    <span class="soc-title-inline">{{ v.soc_code }} &mdash; {{ v.soc_title }}</span>
+    <span class="badge {{ v.risk_badge_class }}">{{ v.risk_rating }} RISK</span>
+    <span class="badge {{ v.pattern_badge_class }}">{{ v.pattern.pattern_name }}</span>
+    {% if v.recommendation %}
+      <span class="tag {{ 'tag-ai' if v.recommendation.used_llm else 'tag-rule' }}">
+        {{ "AI-assisted" if v.recommendation.used_llm else "Rule-based" }}
+      </span>
+    {% endif %}
+  </summary>
+
+  <div class="insight-section">
+    <h4>Key Metrics</h4>
+    <div class="metrics-grid">
+      <div class="metric-tile">
+        <span class="metric-label">Demand Growth Index</span>
+        <span class="metric-value">{{ v.market.demand_growth_index }}<span class="metric-unit">/100</span></span>
+        <span class="metric-sub">{{ v.market.direction }}</span>
+      </div>
+      <div class="metric-tile">
+        <span class="metric-label">Composite AI Exposure</span>
+        <span class="metric-value">{{ "%.2f"|format(v.ai_impact_agent.composite_ai_exposure) }}</span>
+        <span class="metric-sub">{{ v.ai_impact_agent.exposure_band }}</span>
+      </div>
+      <div class="metric-tile">
+        <span class="metric-label">Internal Demand Index</span>
+        <span class="metric-value">{{ v.internal_exposure.internal_demand_index }}<span class="metric-unit">/100</span></span>
+        <span class="metric-sub">{{ v.internal_exposure.direction }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="insight-section">
+    <h4>Pattern Classification</h4>
+    <ul class="points-list">
+      <li>{{ v.pattern.meaning }}</li>
+      <li><strong>Recommended action:</strong> {{ v.pattern.recommended_action }}</li>
+      {% if v.pattern.assumptions %}
+        <li class="caveat-point">Assumption: {{ v.pattern.assumptions | join(' ') }}</li>
+      {% endif %}
+    </ul>
+  </div>
+
+  {% if v.recommendation %}
+  <div class="insight-section">
+    <h4>Insight &amp; Recommendation</h4>
+    <ul class="points-list">
+      <li><strong>AI exposure:</strong> {{ v.ai_impact_agent.narrative }}</li>
+      <li><strong>Market demand:</strong> {{ v.market.narrative }}</li>
+      <li><strong>Internal exposure:</strong> {{ v.internal_exposure.narrative }}</li>
+      <li><strong>Recommendation:</strong> {{ v.recommendation.narrative }}</li>
+    </ul>
+    {% if v.recommendation.llm_error %}
+      <p class="caveat">Rule-based (LLM unavailable) &mdash; Azure OpenAI call failed: {{ v.recommendation.llm_error }}</p>
+    {% endif %}
+  </div>
+  {% endif %}
+
+  {% if saved_soc == v.soc_code %}<p class="saved-flash">Preference saved.</p>{% endif %}
+
+  <form method="post" action="/insights/annotations/{{ v.soc_code }}?{{ qs }}" class="annotation-form">
+    <input type="hidden" name="existing_note" value="{{ v.annotation_note }}">
+    <label class="checkbox-inline">
+      <input type="checkbox" name="include_in_report" {% if v.annotation_include %}checked{% endif %}>
+      Include this occupation in the exported report
+    </label>
+    <button type="submit" class="btn-secondary">Update</button>
+  </form>
+</details>
+{% endfor %}
+{% endif %}
+{% endblock %}

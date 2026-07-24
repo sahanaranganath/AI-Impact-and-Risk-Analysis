@@ -1,0 +1,25 @@
+dimension,source,soc_code,value,description
+External Demand (ED),BLS OEWS,15-1252,"1,687,890","There are currently 1,687,890 people employed nationally in this occupation."
+External Demand (ED),BLS Projections,15-1252,+15.8%,National employment is projected to grow 15.8% over the 2024-34 projection window.
+External Demand (ED),BLS Projections,15-1252,115.2k/year,"An average of 115,200 job openings per year are projected nationally, from growth plus replacement need."
+AI Impact,Anthropic Job Exposure,15-1252,0.288,"29% of this occupation's task content shows up in real, observed Claude usage — this is measured usage, not a theoretical estimate."
+AI Impact,OECD Capability Gap,15-1252,0.91,"[PROXY — based on an adjacent occupation, not a direct measurement] AI's current capabilities cover an estimated 91% of what this occupation demands, based on OECD's forward-looking capability assessment."
+Internal Demand (ID),ATS/VMS Reqs (internal),15-1252,+50.0%,Internal requisition volume for this occupation is increasing (+50.0% comparing earlier vs. later reqs).
+Exposure,Client Billing (internal),15-1252,-12.1%,Average margin on placements in this occupation is compressing (-12.1%) — compression can signal commoditization or client pricing pressure.
+Exposure,Candidate Pipeline (internal),15-1252,+1.4%,"Candidate submittal volume per req is growing (+1.4%), reflecting improving talent supply."
+External Demand (ED),BLS OEWS,17-2071,"198,750","There are currently 198,750 people employed nationally in this occupation."
+External Demand (ED),BLS Projections,17-2071,+7.2%,National employment is projected to grow 7.2% over the 2024-34 projection window.
+External Demand (ED),BLS Projections,17-2071,11.7k/year,"An average of 11,700 job openings per year are projected nationally, from growth plus replacement need."
+AI Impact,Anthropic Job Exposure,17-2071,0.059,"6% of this occupation's task content shows up in real, observed Claude usage — this is measured usage, not a theoretical estimate."
+AI Impact,OECD Capability Gap,17-2071,0.84,"AI's current capabilities cover an estimated 84% of what this occupation demands, based on OECD's forward-looking capability assessment."
+Internal Demand (ID),ATS/VMS Reqs (internal),17-2071,+50.0%,Internal requisition volume for this occupation is increasing (+50.0% comparing earlier vs. later reqs).
+Exposure,Client Billing (internal),17-2071,-6.2%,Average margin on placements in this occupation is compressing (-6.2%) — compression can signal commoditization or client pricing pressure.
+Exposure,Candidate Pipeline (internal),17-2071,+24.4%,"Candidate submittal volume per req is growing (+24.4%), reflecting improving talent supply."
+External Demand (ED),BLS OEWS,19-4031,"57,540","There are currently 57,540 people employed nationally in this occupation."
+External Demand (ED),BLS Projections,19-4031,+3.7%,National employment is projected to grow 3.7% over the 2024-34 projection window.
+External Demand (ED),BLS Projections,19-4031,6.7k/year,"An average of 6,700 job openings per year are projected nationally, from growth plus replacement need."
+AI Impact,Anthropic Job Exposure,19-4031,0.315,"31% of this occupation's task content shows up in real, observed Claude usage — this is measured usage, not a theoretical estimate."
+AI Impact,OECD Capability Gap,19-4031,0.90,"AI's current capabilities cover an estimated 90% of what this occupation demands, based on OECD's forward-looking capability assessment."
+Internal Demand (ID),ATS/VMS Reqs (internal),19-4031,+50.0%,Internal requisition volume for this occupation is increasing (+50.0% comparing earlier vs. later reqs).
+Exposure,Client Billing (internal),19-4031,+5.4%,Average margin on placements in this occupation is expanding (+5.4%) — compression can signal commoditization or client pricing pressure.
+Exposure,Candidate Pipeline (internal),19-4031,-18.5%,"Candidate submittal volume per req is shrinking (-18.5%), reflecting tightening talent supply."

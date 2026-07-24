@@ -1,0 +1,252 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — AI Risk Framework{% endblock %}
+{% block content %}
+<div class="page-heading">
+  <h1>Dashboard</h1>
+  {% if pipeline_ready %}{% include "partials/soc_filter.html" %}{% endif %}
+</div>
+
+{% if not pipeline_ready %}
+  {% include "partials/empty_state.html" %}
+{% else %}
+<section class="panel">
+  <h2>3-Dimension Risk Heatmap</h2>
+  <p class="chart-note">
+    Each occupation scored on three lenses, all on a 0&ndash;100 scale
+    (deep teal = low, amber = moderate, deep red = high). Use this to spot
+    at a glance which roles need attention and on which dimension.
+  </p>
+  <div class="table-scroll">
+  <table class="heatmap">
+    <thead>
+      <tr><th>Occupation</th><th>AI Impact</th><th>Demand Shift</th><th>Organizational Exposure</th></tr>
+    </thead>
+    <tbody>
+    {% for v in views %}
+      <tr>
+        <td class="heatmap-label">{{ v.soc_code }} &mdash; {{ v.soc_title }}</td>
+        <td class="heatmap-cell" style="background-color: {{ v.heatmap.ai_impact_color }};">{{ v.heatmap.ai_impact }}</td>
+        <td class="heatmap-cell" style="background-color: {{ v.heatmap.demand_shift_color }};">{{ v.heatmap.demand_shift }}</td>
+        <td class="heatmap-cell" style="background-color: {{ v.heatmap.org_exposure_color }};">{{ v.heatmap.org_exposure }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+  <ul class="legend-list">
+    <li><strong>AI Impact</strong> &mdash; blended AI exposure (Anthropic usage data + OECD capability gap). Higher means more of this role's work is already touched, or soon could be, by AI.</li>
+    <li><strong>Demand Shift</strong> &mdash; national BLS employment growth, rescaled to 0&ndash;100. Higher means the occupation is projected to expand; lower means it is flat or contracting.</li>
+    <li><strong>Organizational Exposure</strong> &mdash; our own internal req-volume trend, rescaled to 0&ndash;100. Higher means our internal hiring demand for this role is growing.</li>
+  </ul>
+</section>
+
+<section class="panel">
+  <h2>Signal Ledger</h2>
+  <p class="chart-note">
+    A transparent, line-by-line record of every underlying data point that feeds the risk assessment ,where each number comes from, what it measures, and what it means in plain language. Use this when you need to trace a conclusion back to its source.
+  </p>
+  <form method="get" class="filter-bar view1-filter">
+    <label for="dimension-select" class="filter-label">Dimension</label>
+    <select id="dimension-select" name="dimension" class="filter-select" onchange="this.form.submit()">
+      <option value="" {% if not selected_dimension %}selected{% endif %}>All dimensions</option>
+      {% for d in dimension_options %}
+      <option value="{{ d }}" {% if selected_dimension == d %}selected{% endif %}>{{ d }}</option>
+      {% endfor %}
+    </select>
+    {% if soc_filter.selected %}<input type="hidden" name="soc" value="{{ soc_filter.selected }}">{% endif %}
+    <noscript><button type="submit" class="btn-secondary">Apply</button></noscript>
+  </form>
+
+  {% for group in signal_ledger_groups %}
+  <div class="view1-dimension-block">
+    <h4>{{ group.dimension }}</h4>
+    <div class="table-scroll">
+    <table class="view1-table">
+      <thead>
+        <tr><th>Occupation</th><th>Source</th><th>Value</th><th>What this means</th></tr>
+      </thead>
+      <tbody>
+      {% for r in group.rows %}
+        <tr>
+          <td>{{ r.soc_code }}</td>
+          <td>{{ r.source }}</td>
+          <td class="view1-value">{{ r.value }}</td>
+          <td>{{ r.description }}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    </div>
+  </div>
+  {% else %}
+  <p class="hint">No rows match the current filters.</p>
+  {% endfor %}
+</section>
+
+<section class="panel">
+  <h2>Risk &amp; Action Matrix</h2>
+  <p class="chart-note">
+    Compares market direction, internal demand, and AI exposure side by side for each role, and maps that combination to a recommended action — Invest, Reposition, Watch-list, or Harvest based on a consistent decision framework applied across every occupation
+  </p>
+  <div class="table-scroll">
+  <table class="view2-table">
+    <thead>
+      <tr>
+        <th>Occupation</th><th>External Demand</th><th>Internal Demand</th><th>AI Exposure</th>
+        <th>ED vs ID</th><th>AI vs ED</th><th>AI vs ID</th><th>Recommended Action</th><th>Rationale</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for r in risk_matrix_rows %}
+      <tr>
+        <td>{{ r.soc_code }}</td>
+        <td>{{ r.ed_direction }}</td>
+        <td>{{ r.id_direction }}</td>
+        <td>{{ r.ai_level }}</td>
+        <td>{{ r.ed_id_relationship }}</td>
+        <td>{{ r.ai_ed_relationship }}</td>
+        <td>{{ r.ai_id_relationship }}</td>
+        <td><strong>{{ r.recommended_action }}</strong></td>
+        <td>{{ r.rationale }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+
+  <h3 class="view2-matrix-heading">Risk &amp; Action Matrix (reference)</h3>
+  <p class="chart-note">
+    All 8 possible scenarios. The highlighted row(s) are what the
+    currently displayed occupation(s) resolved to above.
+  </p>
+  <div class="table-scroll">
+  <table class="view2-matrix-table">
+    <thead>
+      <tr><th>External Demand</th><th>Internal Demand</th><th>AI Exposure</th><th>Recommended Action</th><th>Rationale</th></tr>
+    </thead>
+    <tbody>
+    {% for m in risk_matrix_reference_rows %}
+      <tr class="{{ 'matrix-row-resolved' if m.is_resolved else '' }}">
+        <td>{{ m.ed }}</td>
+        <td>{{ m.id }}</td>
+        <td>{{ m.ai }}</td>
+        <td>{{ m.recommended_action }}</td>
+        <td>{{ m.rationale }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+</section>
+
+{% for v in views %}
+<section class="panel soc-card">
+  <div class="soc-header">
+    <h2>{{ v.soc_code }} &mdash; {{ v.soc_title }}</h2>
+    <span class="badge {{ v.risk_badge_class }}">{{ v.risk_rating }} RISK</span>
+    <span class="badge {{ v.pattern_badge_class }}">{{ v.pattern.pattern_name }}</span>
+  </div>
+  <p class="pattern-meaning">{{ v.pattern.meaning }} <strong>Recommended:</strong> {{ v.pattern.recommended_action }}</p>
+  {% if v.pattern.assumptions %}
+    <p class="caveat">Assumption: {{ v.pattern.assumptions | join(' ') }}</p>
+  {% endif %}
+  {% if v.oecd_is_proxy %}
+    <p class="caveat">Caveat: this occupation's OECD exposure score is a PROXY (borrowed from an adjacent occupation), not a direct measurement.</p>
+  {% endif %}
+
+  <div class="chart-grid">
+    <div class="chart-card">
+      <h3>External vs. Internal Demand Trend</h3>
+      <p class="chart-note">
+        Compares national job-market growth against our own hiring activity
+        for this role. When these move in opposite directions, that
+        divergence is usually the more actionable signal.
+      </p>
+      <div class="bar-pair">
+        <div class="bar-col">
+          <div class="bar-track">
+            <div class="bar-fill {{ v.bars.external_growth.direction }}" style="height: {{ v.bars.external_growth.height_pct }}%; background-color: {{ v.bars.external_growth.color }};"></div>
+          </div>
+          <span class="bar-label">BLS growth<br><strong>{{ "%.1f"|format(v.bars.external_growth.value) }}%</strong></span>
+        </div>
+        <div class="bar-col">
+          <div class="bar-track">
+            <div class="bar-fill {{ v.bars.internal_req_trend.direction }}" style="height: {{ v.bars.internal_req_trend.height_pct }}%; background-color: {{ v.bars.internal_req_trend.color }};"></div>
+          </div>
+          <span class="bar-label">Internal req trend<br><strong>{{ "%.1f"|format(v.bars.internal_req_trend.value) }}%</strong></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <h3>External View (Anthropic & OECD Exposure)</h3>
+      <p class="chart-note">
+        Two independent AI-exposure signals: Anthropic measures how AI is
+        actually being used today; OECD estimates how close AI's
+        capabilities are to fully covering this occupation. Agreement
+        between the two increases confidence in the exposure score.
+      </p>
+      <div class="hbar">
+        <span class="hbar-label">Anthropic</span>
+        <div class="hbar-track"><div class="hbar-fill" style="width: {{ v.bars.anthropic_exposure.width_pct }}%; background-color: {{ v.bars.anthropic_exposure.color }};"></div></div>
+        <span class="hbar-value">{{ "%.2f"|format(v.bars.anthropic_exposure.value) }}</span>
+      </div>
+      <div class="hbar">
+        <span class="hbar-label">OECD</span>
+        <div class="hbar-track"><div class="hbar-fill" style="width: {{ v.bars.oecd_exposure.width_pct }}%; background-color: {{ v.bars.oecd_exposure.color }};"></div></div>
+        <span class="hbar-value">{{ "%.2f"|format(v.bars.oecd_exposure.value) }}</span>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <h3>Internal Margin Trend</h3>
+      <p class="chart-note">
+        Tracks whether our billing margin for this role is expanding or
+        compressing over time. Compression can be an early signal of
+        commoditization or AI-driven pricing pressure from clients.
+      </p>
+      <div class="bar-pair">
+        <div class="bar-col">
+          <div class="bar-track">
+            <div class="bar-fill {{ v.bars.margin_trend.direction }}" style="height: {{ v.bars.margin_trend.height_pct }}%; background-color: {{ v.bars.margin_trend.color }};"></div>
+          </div>
+          <span class="bar-label">Margin trend<br><strong>{{ "%.1f"|format(v.bars.margin_trend.value) }}%</strong></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <details class="job-roles-expander">
+    <summary>View job roles within this occupation ({{ v.job_roles | length }})</summary>
+    <div class="table-scroll">
+    <table class="job-roles-table">
+      <thead>
+        <tr>
+          <th>Job Title</th><th>Reqs</th><th>Open</th><th>Filled</th>
+          <th>Avg Days to Fill</th><th>Avg Bill Rate</th><th>Avg Pay Rate</th>
+          <th>Avg Margin</th><th>Avg Submittals</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for jr in v.job_roles %}
+        <tr>
+          <td>{{ jr.job_title }}</td>
+          <td>{{ jr.req_count }}</td>
+          <td>{{ jr.open_reqs }}</td>
+          <td>{{ jr.filled_reqs }}</td>
+          <td>{{ jr.avg_days_to_fill if jr.avg_days_to_fill is not none else "—" }}</td>
+          <td>${{ jr.avg_bill_rate }}/hr</td>
+          <td>${{ jr.avg_pay_rate }}/hr</td>
+          <td>${{ jr.avg_margin }}/hr</td>
+          <td>{{ jr.avg_submittals }}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    </div>
+    <p class="dummy-tag">Internal ATS/VMS, billing, and pipeline data shown here is synthetic/dummy data.</p>
+  </details>
+</section>
+{% endfor %}
+{% endif %}
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}Export — AI Risk Framework{% endblock %}
+{% block content %}
+<div class="page-heading">
+  <h1>Export</h1>
+  {% if pipeline_ready %}{% include "partials/soc_filter.html" %}{% endif %}
+</div>
+
+{% if not report_ready %}
+  {% include "partials/empty_state.html" %}
+{% else %}
+<section class="panel">
+  <p>
+    Downloads the extended Excel workbook: every raw source tab, the
+    SOC-level reconciliation, the job-role breakdown, the pattern
+    classification, and saved annotations. Job-role and pattern tabs
+    respect each occupation's "Include this occupation in the exported
+    report" setting (from the Insights &amp; Recommendations screen).
+    Also saved under <code>output/reports/</code>.
+  </p>
+  <a class="btn-primary" href="/api/report/excel">Download Excel Report</a>
+</section>
+
+<section class="panel">
+  <h2>Signal Intelligence workbook</h2>
+  <p>
+    A lightweight workbook with just the two Signal Intelligence Agent
+    views &mdash; the <strong>Signal Ledger</strong> and the
+    <strong>Risk &amp; Action Matrix</strong> (see the Dashboard) &mdash;
+    for sharing when the full reconciliation workbook isn't needed. Also
+    saved under <code>output/reports/</code>.
+  </p>
+  {% if views_report_ready %}
+  <a class="btn-secondary" href="/api/report/views-excel">Download Signal Intelligence Workbook</a>
+  {% else %}
+  <p class="hint">Not generated yet &mdash; run the pipeline from the Agent Run Panel.</p>
+  {% endif %}
+</section>
+
+<section class="panel">
+  <h2>Included in this run</h2>
+  <div class="table-scroll">
+  <table class="export-summary">
+    <thead>
+      <tr><th>Occupation</th><th>Risk</th><th>Pattern</th><th>Include in report?</th></tr>
+    </thead>
+    <tbody>
+    {% for v in views %}
+      <tr>
+        <td>{{ v.soc_code }} &mdash; {{ v.soc_title }}</td>
+        <td><span class="badge {{ v.risk_badge_class }}">{{ v.risk_rating }}</span></td>
+        <td>{{ v.pattern.pattern_name }}</td>
+        <td>{{ "Yes" if v.annotation_include else "No" }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<p class="hint">PDF export is deferred as a fast-follow &mdash; not required for v1 (adds a non-trivial rendering dependency).</p>
+{% endif %}
+{% endblock %}

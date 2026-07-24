@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% import "partials/icons.html" as icons %}
+{% block title %}Agent Run Panel — AI Risk Framework{% endblock %}
+{% block content %}
+<div class="page-heading">
+  <h1>Agent Run Panel</h1>
+  <div class="page-heading-actions">
+    <button id="reset-pipeline-btn" class="btn-danger" type="button">Reset</button>
+    <button id="run-pipeline-btn" class="btn-primary" type="button">Run Pipeline</button>
+  </div>
+</div>
+<p id="pipeline-status-line" class="status-line" role="status"></p>
+
+<div id="agent-rows" class="agent-grid">
+  {% for a in agents_meta %}
+  <div class="agent-card" data-agent="{{ a.name }}">
+    <div class="agent-card-top">
+      <span class="agent-icon">{{ icons.icon(a.icon) }}</span>
+      <span class="agent-name">{{ a.name }}</span>
+    </div>
+
+    <div class="agent-description">{{ a.description }}</div>
+
+    <div class="agent-card-actions">
+      <span class="status-pill status-pending" data-role="status-pill">Pending</span>
+      <div class="agent-downloads">
+        <a class="download-link" data-role="download" href="/api/agents/{{ a.slug }}/csv" hidden>
+          {{ icons.icon("download") }}<span>Download</span>
+        </a>
+        {% for extra in a.extra_downloads %}
+        <a class="download-link" data-role="download" href="/api/agents/{{ extra.slug }}/csv" hidden>
+          {{ icons.icon("download") }}<span>{{ extra.label }}</span>
+        </a>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+<script src="/static/app.js"></script>
+{% endblock %}

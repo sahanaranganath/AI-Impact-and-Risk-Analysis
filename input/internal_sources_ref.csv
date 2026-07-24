@@ -1,0 +1,4 @@
+name,description
+ATS/VMS Req Data,"System of record for job requisitions; tracks open roles, timing, and fill status. Core DEMAND signal — how much hiring activity per SOC code and how hard each role is to fill. [DUMMY DATA]"
+Client Billing Data,Bill rate / pay rate / margin per placement. PRICE signal — compression can indicate commoditization (possible AI displacement); expansion can indicate scarcity/premium. [DUMMY DATA]
+Candidate Pipeline Data,"Submittals, interviews, and offers per req. SUPPLY signal — thin pipelines can reflect genuine scarcity or shrinking interest in a role. [DUMMY DATA]"

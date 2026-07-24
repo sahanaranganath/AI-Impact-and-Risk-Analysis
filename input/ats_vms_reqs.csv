@@ -1,0 +1,16 @@
+req_id,job_title,soc_code,client_id,open_date,fill_date,days_to_fill,fill_status,location
+REQ-1001,Senior Software Developer,15-1252,Client_2210,2026-01-05,2026-02-18,44.0,Filled,Austin TX
+REQ-1002,Software Developer II,15-1252,Client_4471,2026-02-01,2026-03-02,29.0,Filled,Remote
+REQ-1003,Full Stack Developer,15-1252,Client_3390,2026-02-20,,,Open,Chicago IL
+REQ-1004,Software Developer - Backend,15-1252,Client_2210,2026-03-10,2026-04-25,46.0,Filled,Austin TX
+REQ-1005,Junior Software Developer,15-1252,Client_1187,2026-04-01,2026-04-20,19.0,Filled,Remote
+REQ-2001,Senior Electrical Engineer,17-2071,Client_4471,2026-01-12,2026-02-28,47.0,Filled,Detroit MI
+REQ-2002,Electrical Engineer II,17-2071,Client_5502,2026-02-15,2026-03-30,43.0,Filled,Houston TX
+REQ-2003,Electrical Design Engineer,17-2071,Client_3390,2026-03-01,,,Open,Detroit MI
+REQ-2004,Electrical Engineer - Power Systems,17-2071,Client_2210,2026-03-20,2026-05-10,51.0,Filled,Remote
+REQ-2005,Electrical Engineer - Entry Level,17-2071,Client_5502,2026-04-05,2026-04-30,25.0,Filled,Houston TX
+REQ-3001,Chemical Technician,19-4031,Client_1187,2026-01-20,2026-02-25,36.0,Filled,Baton Rouge LA
+REQ-3002,Chemical Lab Technician,19-4031,Client_3390,2026-02-10,2026-03-15,33.0,Filled,Houston TX
+REQ-3003,Senior Chemical Technician,19-4031,Client_5502,2026-03-05,,,Open,Baton Rouge LA
+REQ-3004,Chemical Process Technician,19-4031,Client_1187,2026-03-25,2026-05-01,37.0,Filled,Remote
+REQ-3005,QC Chemical Technician,19-4031,Client_2210,2026-04-10,2026-04-28,18.0,Filled,Houston TX

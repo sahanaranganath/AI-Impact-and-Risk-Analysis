@@ -1,0 +1,9 @@
+name,description
+SOC Codes,Official BLS classification structure defining every 6-digit occupation code and title; the master taxonomy every other source keys off.
+BLS OEWS,Government wage and employment survey giving actual headcount and pay by SOC code nationally; the 'ground truth' size/wage anchor for each occupation today.
+BLS Employment Projections,10-year government forecast of employment growth/decline and job openings by SOC code; separates AI-driven change from pre-existing structural trends.
+O*NET Occupation Data,"O*NET's master list of occupation codes, titles, and descriptions; the plain-English definition of the job and the SOC <-> O*NET-SOC crosswalk."
+O*NET Task Statements,Task-level breakdown of each occupation; the foundation every AI-exposure study scores against.
+Anthropic Economic Index - Job Exposure,"Real-world, usage-based AI exposure score per occupation from actual Claude conversations; how much AI is ACTUALLY being used for this job right now."
+Anthropic Economic Index - Task Penetration,Same usage-based data at individual-task grain; shows which specific tasks within a role are AI-penetrated vs. untouched.
+OECD AI Exposure (Capability Gap Index),Forward-looking index comparing AI's current capabilities against occupational demands across nine skill domains; a 5-10 year outlook rather than current usage.
